@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Works — 言葉と写真</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">言葉と写真</a>
+  <ul class="nav-links">
+    <li><a href="works.html">Works</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="works-hero">
+  <div class="works-hero-bg-text" aria-hidden="true">記事</div>
+  <div>
+    <h1>
+      記事一覧
+      <span>all works</span>
+    </h1>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="works-filter">
+  <div class="works-filter-inner">
+    <button class="filter-btn active" data-cat="All">All</button>
+    <button class="filter-btn" data-cat="Essay">Essay</button>
+    <button class="filter-btn" data-cat="Column">Column</button>
+    <button class="filter-btn" data-cat="Photo Essay">Photo Essay</button>
+  </div>
+</div>
+
+<!-- LIST -->
+<div class="works-list-wrap">
+  <div class="works-list" id="worksList"></div>
+</div>
+
+<footer>
+  <span class="footer-logo">言葉と写真</span>
+  <span class="footer-copy">© 2024 Portfolio. All rights reserved.</span>
+</footer>
+
+<script src="articles.js"></script>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.getElementById('worksList');
+
+  getAllArticles().forEach((a, i) => {
+    const imgSrc = `images/${a.slug}.jpg`;
+    list.innerHTML += `
+      <a class="work-item reveal" href="article.html?slug=${a.slug}"
+         data-cat="${a.category}" style="transition-delay:${i * 0.06}s">
+        <div>
+          <div class="work-item-thumb">
+            <img
+              src="${imgSrc}"
+              alt="${a.title}"
+              onerror="this.parentElement.innerHTML='<div class=\'work-item-thumb-ph\'><span>写</span></div>'"
+            >
+          </div>
+        </div>
+        <div class="work-item-body">
+          <span class="work-item-cat">${a.category}</span>
+          <div class="work-item-title">${a.title}</div>
+          <div class="work-item-excerpt">${a.excerpt}</div>
+        </div>
+        <div class="work-item-date">${a.date}</div>
+      </a>`;
+  });
+
+  initReveal();
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.work-item').forEach(item => {
+        const show = cat === 'All' || item.dataset.cat === cat;
+        item.style.display = show ? 'grid' : 'none';
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

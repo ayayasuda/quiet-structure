@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事 — 言葉と写真</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="articleNav">
+  <a href="index.html" class="nav-logo">言葉と写真</a>
+  <ul class="nav-links">
+    <li><a href="works.html">Works</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO（写真あり / なし で切り替わる） -->
+<div id="articleHero"></div>
+
+<!-- BODY -->
+<main class="article-body-wrap">
+  <div class="article-body" id="articleBody"></div>
+</main>
+
+<!-- FOOTER NAV -->
+<div class="article-footer-nav">
+  <a href="works.html" class="back-to-list">← 記事一覧へ</a>
+  <div class="next-article-link" id="nextArticleWrap" style="display:none">
+    <span class="next-label">NEXT ARTICLE</span>
+    <a class="next-title" id="nextArticleLink" href="#"></a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">言葉と写真</span>
+  <span class="footer-copy">© 2024 Portfolio. All rights reserved.</span>
+</footer>
+
+<script src="articles.js"></script>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params  = new URLSearchParams(window.location.search);
+  const slug    = params.get('slug');
+  const article = slug ? getArticleBySlug(slug) : null;
+  const hero    = document.getElementById('articleHero');
+
+  if (!article) {
+    hero.innerHTML = `<div class="article-hero-noimg"><span class="article-hero-cat">—</span><h1 class="article-hero-title">記事が見つかりませんでした</h1></div>`;
+    return;
+  }
+
+  document.title = `${article.title} — 言葉と写真`;
+
+  // Hero: 写真があれば全面、なければ生成り背景
+  const imgSrc  = `images/${article.slug}.jpg`;
+  const imgTest = new Image();
+  imgTest.onload = () => {
+    hero.innerHTML = `
+      <div class="article-hero">
+        <img src="${imgSrc}" alt="${article.title}">
+        <div class="article-hero-overlay"></div>
+        <div class="article-hero-text">
+          <span class="article-hero-cat">${article.category}</span>
+          <h1 class="article-hero-title">${article.title}</h1>
+          <span class="article-hero-date">${article.date}</span>
+        </div>
+      </div>`;
+
+    // Navを透過（写真ヒーローの上は白文字に）
+    const nav = document.getElementById('articleNav');
+    nav.classList.add('light');
+    nav.style.background = 'transparent';
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 0.7) {
+        nav.classList.remove('light');
+        nav.style.background = 'rgba(250,249,247,0.95)';
+        nav.style.backdropFilter = 'blur(8px)';
+      } else {
+        nav.classList.add('light');
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+      }
+    });
+  };
+  imgTest.onerror = () => {
+    hero.innerHTML = `
+      <div class="article-hero-noimg">
+        <span class="article-hero-cat">${article.category}</span>
+        <h1 class="article-hero-title">${article.title}</h1>
+        <span class="article-hero-date" style="color:var(--muted)">${article.date}</span>
+      </div>`;
+  };
+  imgTest.src = imgSrc;
+
+  // Body
+  document.getElementById('articleBody').innerHTML =
+    article.body.map(p => `<p>${p}</p>`).join('');
+
+  // Next article
+  const all  = getAllArticles();
+  const idx  = all.findIndex(a => a.slug === slug);
+  const next = all[idx + 1] || null;
+  if (next) {
+    document.getElementById('nextArticleWrap').style.display = 'block';
+    const link = document.getElementById('nextArticleLink');
+    link.textContent = next.title;
+    link.href = `article.html?slug=${next.slug}`;
+  }
+});
+</script>
+</body>
+</html>

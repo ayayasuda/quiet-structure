@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — 言葉と写真</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">言葉と写真</a>
+  <ul class="nav-links">
+    <li><a href="works.html">Works</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- SPLIT: 写真左・テキスト右 -->
+<div class="about-split">
+  <div class="about-photo-col">
+    <!-- images/about.jpg を用意してください -->
+    <img
+      src="images/about.jpg"
+      alt="profile"
+      onerror="this.style.background='#e4dfd6';this.removeAttribute('src')"
+    >
+  </div>
+
+  <div class="about-text-col">
+    <span class="about-eyebrow">photographer &amp; writer</span>
+    <h1 class="about-name">山田 静</h1>
+    <span class="about-name-en">Shizuka Yamada</span>
+
+    <div class="about-bio reveal">
+      <p>写真家、そして言葉を書く人。</p>
+      <p>大学で文学を学んだのち、ある旅先でカメラと出会う。光と影が地面に溶け込む夕暮れどき、雨粒が窓ガラスを伝う静かな朝——そういった「ことば以前の瞬間」を撮るために、シャッターを押し続けるようになった。</p>
+      <p>写真と文章は、私にとって同じひとつの行為だ。世界を見て、感じて、残す。</p>
+    </div>
+
+    <div class="about-info reveal stagger-2">
+      <div class="about-info-item">
+        <span class="about-info-key">BASED IN</span>
+        <span class="about-info-val">東京・京都</span>
+      </div>
+      <div class="about-info-item">
+        <span class="about-info-key">CAMERA</span>
+        <span class="about-info-val">Leica M6<br>Rolleiflex</span>
+      </div>
+      <div class="about-info-item">
+        <span class="about-info-key">WORKS</span>
+        <span class="about-info-val">Essay / Column<br>Photo Essay</span>
+      </div>
+      <div class="about-info-item">
+        <span class="about-info-key">CONTACT</span>
+        <span class="about-info-val">hello@example.jp</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<div class="about-statement">
+  <div class="about-statement-inner reveal">
+    <span class="statement-label">STATEMENT</span>
+    <p class="statement-text">
+      光が地面に<strong>倒れる瞬間</strong>がある。<br>
+      言葉が胸に<strong>落ちてくる瞬間</strong>がある。<br><br>
+      その二つは、私の中では<strong>同じこと</strong>だ。<br>
+      世界と私の間に生まれる、小さくて確かな出来事を、<br>
+      ただ丁寧に、拾い続けたい。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">言葉と写真</span>
+  <span class="footer-copy">© 2024 Portfolio. All rights reserved.</span>
+</footer>
+
+<script src="articles.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

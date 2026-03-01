@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>言葉と写真 — Portfolio</title>
+<meta name="description" content="写真と言葉が交わる場所。日常の小さな豊かさを記録するポートフォリオサイト。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">言葉と写真</a>
+  <ul class="nav-links">
+    <li><a href="works.html">Works</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- =====================
+     HERO
+     写真左・縦書きタイトル右
+===================== -->
+<section class="hero">
+  <div class="hero-photo">
+    <!-- images/ フォルダに写真を入れてください -->
+    <!-- 推奨：ヒヤシンスの写真（縦長・余白多め） -->
+    <img
+      src="images/hero.jpg"
+      alt="言葉と写真"
+      onerror="this.style.background='#e4dfd6';this.removeAttribute('src')"
+    >
+  </div>
+
+  <div class="hero-text">
+    <span class="hero-eyebrow">words &amp; photography</span>
+
+    <h1 class="hero-title">言葉<br>と<br>写真</h1>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-catch">
+      光が地面に倒れる瞬間。<br>
+      言葉が胸に落ちてくる瞬間。<br>
+      その間に、私は立っている。
+    </p>
+
+    <div class="hero-scroll">
+      <span class="scroll-dot"></span>
+      scroll
+    </div>
+  </div>
+</section>
+
+<!-- =====================
+     FEATURED ARTICLES
+===================== -->
+<section class="featured">
+  <div class="featured-header">
+    <h2 class="featured-title-jp">最近の記事</h2>
+    <span class="featured-title-en">recent works</span>
+    <a href="works.html" class="see-all">すべて見る →</a>
+  </div>
+
+  <div class="featured-grid" id="featuredGrid">
+    <!-- JS で描画 -->
+  </div>
+</section>
+
+<!-- =====================
+     ARCHIVE（ランダムタイトル）
+     黒背景・白抜き文字
+===================== -->
+<section class="archive">
+  <div class="archive-bg-text" aria-hidden="true">記録</div>
+  <div class="archive-inner">
+    <div class="archive-header reveal">
+      <h2 class="archive-title">
+        すべての言葉から、<br>
+        <em>今日あなたに届く</em>一篇を。
+      </h2>
+      <span class="archive-sub">— archive</span>
+    </div>
+    <ul class="archive-list" id="archiveList">
+      <!-- JS で描画 -->
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">言葉と写真</span>
+  <span class="footer-copy">© 2024 Portfolio. All rights reserved.</span>
+</footer>
+
+<script src="articles.js"></script>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ---- Featured cards ----
+  const grid = document.getElementById('featuredGrid');
+  const featured = getFeaturedArticles();
+
+  // 各カードに使う写真（images/フォルダから）
+  // 記事のslugと同名のファイルを用意すると自動で読み込まれます
+  featured.forEach((a, i) => {
+    const imgSrc = `images/${a.slug}.jpg`;
+    grid.innerHTML += `
+      <a class="feat-card reveal stagger-${i+1}" href="article.html?slug=${a.slug}">
+        <img
+          class="feat-card-img"
+          src="${imgSrc}"
+          alt="${a.title}"
+          onerror="this.style.background='#e4dfd6';this.style.aspectRatio='3/4';this.removeAttribute('src')"
+        >
+        <div class="feat-card-info">
+          <span class="feat-card-cat">${a.category}</span>
+          <div class="feat-card-title">${a.title}</div>
+          <div class="feat-card-excerpt">${a.excerpt}</div>
+        </div>
+      </a>`;
+  });
+
+  // ---- Archive list（シャッフル）----
+  const list = document.getElementById('archiveList');
+  getShuffledArticles().forEach((a, i) => {
+    list.innerHTML += `
+      <li>
+        <a class="archive-item reveal" href="article.html?slug=${a.slug}"
+           style="transition-delay:${i * 0.06}s">
+          <span class="archive-item-num">${String(i + 1).padStart(2, '0')}</span>
+          <span class="archive-item-title">${a.title}</span>
+          <span class="archive-item-cat">${a.category}</span>
+          <span class="archive-item-arrow">→</span>
+        </a>
+      </li>`;
+  });
+
+  initReveal();
+
+  // ---- Nav: 透過 → 白背景 ----
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.8) {
+      nav.style.background = 'rgba(250,249,247,0.95)';
+      nav.style.backdropFilter = 'blur(8px)';
+    } else {
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+    }
+  });
+});
+</script>
+</body>
+</html>
